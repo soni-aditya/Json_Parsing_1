@@ -3,10 +3,9 @@ package com.example.adi.jsonparsing1;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,14 +18,12 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG_SUCCESS = "success", TAG_MOBILE = "mobile", TAG_EMAIL = "email";
     TextView result;
     Button caller_but;
     JSONParser jsonParser = new JSONParser();
-
     Integer flag=0;
     String uname="",pword="",name_tag="",mob_tag="",mail_tag="";
-
-    private static final String TAG_SUCCESS="success",TAG_MOBILE="mobile",TAG_EMAIL="email";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +50,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("CALL CHECK 2",uname);
     }
 
+    private void performCheck() {
+        if (flag == 1) {
+            result.setText("Heloo Json" + name_tag + mail_tag);
+        } else {
+            Toast.makeText(getApplicationContext(), "It didn't work", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private class UserRegister extends AsyncTask<String, Void, String> {
 
         private Activity activity;
         private Context context;
+        private ProgressDialog pDialog;
 
         public UserRegister(Activity activity, Context context) {
             this.activity = activity;
             this.context = context;
         }
-
-        private ProgressDialog pDialog;
 
         @Override
         protected void onPreExecute() {
@@ -117,15 +121,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 pDialog.dismiss();
             }
             performCheck();
-        }
-    }
-
-    private void performCheck() {
-        if(flag==1){
-            result.setText(name_tag+mail_tag);
-        }
-        else{
-            Toast.makeText(getApplicationContext(),"It didn't work",Toast.LENGTH_SHORT).show();
         }
     }
 }
