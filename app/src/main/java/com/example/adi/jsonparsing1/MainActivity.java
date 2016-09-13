@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    TextView result;
     Button caller_but;
     JSONParser jsonParser = new JSONParser();
 
@@ -25,23 +27,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String uname="",pword="",name_tag="",mob_tag="",mail_tag="";
 
     private static final String TAG_SUCCESS="success",TAG_MOBILE="mobile",TAG_EMAIL="email";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        uname="This is a username";
-        pword="This is a password";
-        Log.d("CLICK CHECK",uname);
-        userRegister();
         Log.d("CaLL STATUS","PERFECT");
+        result=(TextView) findViewById(R.id.json_result);
         caller_but=(Button) findViewById(R.id.caller_button);
         caller_but.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-
+        uname="This is a username";
+        pword="This is a password";
+        Log.d("CLICK CHECK",uname);
+        userRegister();
     }
 
     void userRegister(){
@@ -119,8 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void performCheck() {
         if(flag==1){
-            Intent i=new Intent(getApplicationContext(),SecondActivity.class);
-            startActivity(i);
+            result.setText(name_tag+mail_tag);
         }
         else{
             Toast.makeText(getApplicationContext(),"It didn't work",Toast.LENGTH_SHORT).show();
