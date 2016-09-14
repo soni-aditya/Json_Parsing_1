@@ -12,18 +12,24 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG_SUCCESS = "success", TAG_MOBILE = "mobile", TAG_EMAIL = "email";
+    private static final String TAG_SUCCESS = "success", TAG_MOBILE = "mobile", TAG_EMAIL = "email", TAG_ARR = "arr";
     TextView result;
     Button caller_but;
     JSONParser jsonParser = new JSONParser();
     Integer flag=0;
-    String uname="",pword="",name_tag="",mob_tag="",mail_tag="";
+    String uname = "";
+    String pword = "";
+    String name_tag = "";
+    String mob_tag = "";
+    String mail_tag = "";
+    JSONArray arr_tag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +58,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void performCheck() {
         if (flag == 1) {
-            result.setText("Heloo Json" + name_tag + mail_tag);
+            result.setText("Heloo Json " + name_tag + mail_tag);
+            //Converting our json array to a string
+            String s = arr_tag.toString();
+            //Forming a string array from that string [by splitting that string from comma(,)]
+            String x[] = s.split(",");//Here we get x as our required string array
+            System.out.println(s);
+            for (String y : x) {
+                System.out.println(y);
+            }
+
         } else {
             Toast.makeText(getApplicationContext(), "It didn't work", Toast.LENGTH_SHORT).show();
         }
@@ -99,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 name_tag=uname;
                 mob_tag=json.getString(TAG_MOBILE);
                 mail_tag=json.getString(TAG_EMAIL);
-
+                arr_tag = json.getJSONArray(TAG_ARR);
                 Log.d("TAG_CHECK",mob_tag+mail_tag);
                 if (success == 1) {
                     flag = 1;
